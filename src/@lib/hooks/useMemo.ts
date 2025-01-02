@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 import { DependencyList } from "react";
 import { shallowEquals } from "../equalities";
 import { useRef } from "./useRef";
@@ -7,7 +5,7 @@ import { useRef } from "./useRef";
 export function useMemo<T>(
   factory: () => T,
   _deps: DependencyList,
-  _equals = shallowEquals
+  _equals = shallowEquals,
 ): T {
   const ref = useRef<{ value: T; deps: DependencyList } | null>(null);
 

@@ -6,7 +6,7 @@ import { DependencyList } from "react";
 import { useMemo } from "./useMemo";
 export function useCallback<T extends Function>(
   factory: T,
-  _deps: DependencyList
+  _deps: DependencyList,
 ) {
   const refactory = useMemo(() => factory, _deps);
 
