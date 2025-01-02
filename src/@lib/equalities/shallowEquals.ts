@@ -18,6 +18,6 @@ export function shallowEquals<T>(objA: T, objB: T): boolean {
 
   return aKeys.every(
     (key) =>
-      bKeys.includes(key) && objA[key as keyof T] === objB[key as keyof T]
+      bKeys.includes(key) && objA[key as keyof T] === objB[key as keyof T],
   );
 }
