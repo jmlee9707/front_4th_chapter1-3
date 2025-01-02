@@ -1,14 +1,17 @@
-import { useAppContext } from "../@lib/hooks/useAppContext";
+import { useContext } from "react";
 import { renderLog } from "../utils";
+import { ThemeContext, UserContext } from "../contexts";
+import { useCallback } from "../@lib";
 
 // Header 컴포넌트
 export const Header: React.FC = () => {
   renderLog("Header rendered");
-  const { theme, toggleTheme, user, login, logout } = useAppContext();
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { user, login, logout } = useContext(UserContext);
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     login("user@example.com", "password");
-  };
+  }, []);
 
   return (
     <header className="bg-gray-800 text-white p-4">
@@ -21,7 +24,7 @@ export const Header: React.FC = () => {
           >
             {theme === "light" ? "다크 모드" : "라이트 모드"}
           </button>
-          {user ? (
+          {user.id !== 0 ? (
             <div className="flex items-center">
               <span className="mr-2">{user.name}님 환영합니다!</span>
               <button

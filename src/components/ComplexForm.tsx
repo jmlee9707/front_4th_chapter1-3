@@ -1,39 +1,48 @@
-import { useState } from "react";
-import { useAppContext } from "../@lib/hooks/useAppContext";
+import React, { useContext, useState } from "react";
 import { renderLog } from "../utils";
+import { useCallback } from "../@lib";
+import { NotificationContext, UserContext } from "../contexts";
 
-// ComplexForm 컴포넌트
-export const ComplexForm: React.FC = () => {
+const ComplexFormComponent: React.FC = () => {
   renderLog("ComplexForm rendered");
-  const { addNotification } = useAppContext();
+
+  const { addNotification } = useContext(NotificationContext);
+  const { user } = useContext(UserContext);
+
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: user.name,
+    email: user.email,
     age: 0,
     preferences: [] as string[],
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addNotification("폼이 성공적으로 제출되었습니다", "success");
-  };
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      addNotification("폼이 성공적으로 제출되었습니다", "success");
+    },
+    [addNotification],
+  );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "age" ? parseInt(value) || 0 : value,
-    }));
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: name === "age" ? parseInt(value) || 0 : value,
+      }));
+    },
+    [],
+  );
 
-  const handlePreferenceChange = (preference: string) => {
+  const handlePreferenceChange = useCallback((preference: string) => {
     setFormData((prev) => ({
       ...prev,
       preferences: prev.preferences.includes(preference)
         ? prev.preferences.filter((p) => p !== preference)
         : [...prev.preferences, preference],
     }));
-  };
+  }, []);
 
   return (
     <div className="mt-8">
@@ -86,3 +95,5 @@ export const ComplexForm: React.FC = () => {
     </div>
   );
 };
+
+export const ComplexForm = React.memo(ComplexFormComponent);

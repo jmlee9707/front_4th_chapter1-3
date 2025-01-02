@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { renderLog } from "../utils";
-import { useAppContext } from "../@lib/hooks";
+import { ThemeContext } from "../contexts";
 
 interface Item {
   id: number;
@@ -9,14 +9,14 @@ interface Item {
   price: number;
 }
 
-// ItemList 컴포넌트
 export const ItemList: React.FC<{
   items: Item[];
   onAddItemsClick: () => void;
 }> = ({ items, onAddItemsClick }) => {
   renderLog("ItemList rendered");
+
   const [filter, setFilter] = useState("");
-  const { theme } = useAppContext();
+  const { theme } = useContext(ThemeContext);
 
   const filteredItems = items.filter(
     (item) =>
