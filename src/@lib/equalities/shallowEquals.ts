@@ -1,5 +1,4 @@
 export function shallowEquals<T>(objA: T, objB: T): boolean {
-  console.log(typeof objA);
   if (objA === objB) {
     return true;
   }
@@ -19,8 +18,6 @@ export function shallowEquals<T>(objA: T, objB: T): boolean {
 
   return aKeys.every(
     (key) =>
-      bKeys.includes(key) && objA[key as keyof T] === objB[key as keyof T],
+      bKeys.includes(key) && objA[key as keyof T] === objB[key as keyof T]
   );
-
-  return true;
 }
